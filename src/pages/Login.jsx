@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useFormStatus } from 'react-dom';
 import { useForm, useFormState } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../redux/authSlice';
 
 
 export const Login = () => {
@@ -12,8 +14,12 @@ export const Login = () => {
             formState: { errors },
         } = useForm();
 
+        const dispatch = useDispatch();
+
+
         const onSubmit = (data) => {
             console.log("Form data:", data);
+            dispatch(loginUser(data));
         };
 
         return (

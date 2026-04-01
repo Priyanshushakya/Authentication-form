@@ -1,17 +1,28 @@
-    import React from 'react'
-    import { useForm } from 'react-hook-form';
+import React from 'react'
+import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { registerUser } from '../redux/authSlice';
+import { Navigate, useNavigate } from 'react-router-dom';
+import Home from './Home';
 
-    export const Register = () => {
 
-        const {
-            register,
-            handleSubmit,
-            formState: { errors }
-        } = useForm();
+export const Register = () => {
 
-        const onSubmit = (data) => {
-            console.log ("Form data:", data);
-        };
+    const {
+        register,
+        handleSubmit,
+        formState: { errors }
+    } = useForm();
+
+    const dispatch = useDispatch();
+    const Navigate = useNavigate();
+
+    const onSubmit = (data) => {
+        console.log("Form data:", data);
+
+        dispatch(registerUser(data));
+        Navigate('/Home');
+    };
 
 
     return (
@@ -24,14 +35,14 @@
                     <div className="mb-3">
                         <label htmlFor='name' className='text-black text-sm mb-1 block' >Full Name</label>
                         <div className='border border-black w-full p-2 rounded-full focus-within:border-blue-500'>
-                            <input type="text" 
-                            id="name" 
-                            placeholder='Enter your full name...' 
-                            className='outline-none w-full border-none'
-                            {...register("name",{
-                                required: "Full name is required",
-                            })}
-                             />
+                            <input type="text"
+                                id="name"
+                                placeholder='Enter your full name...'
+                                className='outline-none w-full border-none'
+                                {...register("name", {
+                                    required: "Full name is required",
+                                })}
+                            />
                         </div>
                         {errors.name && (
                             <p className='text-red-500 text-sm'>
@@ -43,18 +54,18 @@
                     <div className="mb-3">
                         <label htmlFor='email' className='text-black text-sm mb-1 block' >Email</label>
                         <div className='border border-black w-full p-2 rounded-full focus-within:border-blue-500'>
-                            <input type="text" 
-                            id="email" 
-                            placeholder='Enter you email...' 
-                            className='outline-none w-full border-none'
-                            {...register("email",{
-                                required: "Email is required",
-                                pattern: {
-                                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                                    message: "Invalid email address"
-                                }
-                            })}
-                             />
+                            <input type="text"
+                                id="email"
+                                placeholder='Enter you email...'
+                                className='outline-none w-full border-none'
+                                {...register("email", {
+                                    required: "Email is required",
+                                    pattern: {
+                                        value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                                        message: "Invalid email address"
+                                    }
+                                })}
+                            />
                         </div>
                         {errors.email && (
                             <p className='text-red-500 text-sm'>
@@ -63,19 +74,19 @@
                         )}
                     </div>
 
-                
+
 
                     <div className="mb-3">
                         <label htmlFor='dob' className='text-black text-sm mb-1 block' >Date of birth</label>
                         <div className='border border-black w-full p-2 rounded-full focus-within:border-blue-500'>
-                            <input type="date"  
-                            id="dob" 
-                            placeholder='Enter your date of birth...' 
-                            className='outline-none w-full border-none'
-                            {...register("dob",{
-                                required: "Date of birth is required"
-                            })} 
-                             />
+                            <input type="date"
+                                id="dob"
+                                placeholder='Enter your date of birth...'
+                                className='outline-none w-full border-none'
+                                {...register("dob", {
+                                    required: "Date of birth is required"
+                                })}
+                            />
                         </div>
                         {errors.dob && (
                             <p className='text-red-500 text-sm'>
@@ -87,18 +98,18 @@
                     <div className="mb-3">
                         <label htmlFor='password' className='text-black text-sm mb-1 block' >Password</label>
                         <div className='border border-black w-full p-2 rounded-full focus-within:border-blue-500'>
-                            <input type="password" 
-                            id="password" 
-                            placeholder='Enter your password...' 
-                            className='outline-none w-full border-none'
-                            {...register("password",{
-                                required: "Password is required",
-                                minLength: {
-                                    value: 6,
-                                    message: "Password must be at least 6 characters"
-                                }
-                            })}
-                             />
+                            <input type="password"
+                                id="password"
+                                placeholder='Enter your password...'
+                                className='outline-none w-full border-none'
+                                {...register("password", {
+                                    required: "Password is required",
+                                    minLength: {
+                                        value: 6,
+                                        message: "Password must be at least 6 characters"
+                                    }
+                                })}
+                            />
                         </div>
                         {errors.password && (
                             <p className='text-red-500 text-sm'>
@@ -116,4 +127,4 @@
 
         </div>
     );
-    };
+};
