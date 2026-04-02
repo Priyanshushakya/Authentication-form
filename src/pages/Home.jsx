@@ -3,12 +3,12 @@ import { useSelector } from 'react-redux'
 
 const Home = () => {
 
-  const   user = useSelector((state) => state.auth.user);
+  const  user = useSelector((state) => state.auth.user);
   console.log("Redux user:", user);
   
 
   return (
-    <div className='text-black p-4 bg-white'>
+    <div className='text-white max-w-7xl mx-auto py-5' >
       <h1 className='text-2xl font-bold'>Home Page</h1>
 
       {user && user.name ? (

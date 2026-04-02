@@ -1,9 +1,8 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { registerUser } from '../redux/authSlice';
+import { registerUser } from '../slice/authSlice';
 import { Navigate, useNavigate } from 'react-router-dom';
-import Home from './Home';
 
 
 export const Register = () => {
@@ -11,17 +10,18 @@ export const Register = () => {
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors }
     } = useForm();
 
     const dispatch = useDispatch();
     const Navigate = useNavigate();
 
-    const onSubmit = (data) => {
-        console.log("Form data:", data);
-
-        dispatch(registerUser(data));
-        Navigate('/Home');
+    const onSubmit = (payload) => {
+        console.log("Form data:", payload);
+        dispatch(registerUser(payload));
+        Navigate('/');
+        reset();
     };
 
 

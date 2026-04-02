@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useFormStatus } from 'react-dom';
 import { useForm, useFormState } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { loginUser } from '../redux/authSlice';
+import { loginUser } from '../slice/authSlice';
 
 
 export const Login = () => {
