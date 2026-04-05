@@ -3,9 +3,15 @@ import { useSelector } from 'react-redux'
 
 const Home = () => {
 
-  const  user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.auth.user);
   console.log("Redux user:", user);
-  
+
+  const initialState = {
+    user: null,
+    isAuthenticated: false,
+    error: null,
+    loading: false,
+  }
 
   return (
     <div className='text-white max-w-7xl mx-auto py-5' >
@@ -17,12 +23,11 @@ const Home = () => {
           <p>Email: {user.email}</p>
           <p>DOB: {user.dob}</p>
         </div>
-      ):(
+      ) : (
         <p>User data is not found</p>
       )}
-      <pre>{JSON.stringify(user, null, 2)}</pre>
+      <pre>{JSON.stringify(user.name, null, 2)}</pre>
     </div>
   );
 };
-
 export default Home

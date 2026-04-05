@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import { registerUser } from '../slice/authSlice';
 import { Navigate, useNavigate } from 'react-router-dom';
 
-
 export const Register = () => {
 
     const {
@@ -19,11 +18,13 @@ export const Register = () => {
 
     const onSubmit = (payload) => {
         console.log("Form data:", payload);
+
+        localStorage.setItem("user", JSON.stringify(payload));
+
         dispatch(registerUser(payload));
         Navigate('/');
         reset();
     };
-
 
     return (
         <div className='flex items-center justify-center h-screen ' >
@@ -74,8 +75,6 @@ export const Register = () => {
                         )}
                     </div>
 
-
-
                     <div className="mb-3">
                         <label htmlFor='dob' className='text-black text-sm mb-1 block' >Date of birth</label>
                         <div className='border border-black w-full p-2 rounded-full focus-within:border-blue-500'>
@@ -122,9 +121,8 @@ export const Register = () => {
 
                     <p className='text-black text-sm text-center'>You have an account? <a href='/login' className='text-blue-500 hover:underline'>Login</a></p>
                 </form>
-
             </div>
-
         </div>
     );
 };
+export default Register
