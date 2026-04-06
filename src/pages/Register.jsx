@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../slice/authSlice';
 import { Navigate, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 export const Register = () => {
 
@@ -16,14 +17,20 @@ export const Register = () => {
     const dispatch = useDispatch();
     const Navigate = useNavigate();
 
-    const onSubmit = (payload) => {
+    const onSubmit = async(payload) => {
         console.log("Form data:", payload);
 
-        localStorage.setItem("user", JSON.stringify(payload));
+        try {
+           const res = await dispatch(registerUser(payload)).unwrap();
+           console.log("res", res)
+            toast.success(res.data.message || "Registration successful!");
+            Navigate('/');
+            reset();
+        } catch (error) {
+            console.error("Registration error:", error);
+           toast.error(error || "Registration failed!");
+        }
 
-        dispatch(registerUser(payload));
-        Navigate('/');
-        reset();
     };
 
     return (
@@ -32,25 +39,7 @@ export const Register = () => {
                 <h1 className='text-3xl text-center text-black font-bold'>Register</h1>
                 <p className='text-black text-center mb-4'>Welcome back! Please enter your details.</p>
 
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="mb-3">
-                        <label htmlFor='name' className='text-black text-sm mb-1 block' >Full Name</label>
-                        <div className='border border-black w-full p-2 rounded-full focus-within:border-blue-500'>
-                            <input type="text"
-                                id="name"
-                                placeholder='Enter your full name...'
-                                className='outline-none w-full border-none'
-                                {...register("name", {
-                                    required: "Full name is required",
-                                })}
-                            />
-                        </div>
-                        {errors.name && (
-                            <p className='text-red-500 text-sm'>
-                                {errors.name.message}
-                            </p>
-                        )}
-                    </div>
+                <form onSubmit={handleSubmit(onSubmit)}>                 
 
                     <div className="mb-3">
                         <label htmlFor='email' className='text-black text-sm mb-1 block' >Email</label>
@@ -75,26 +64,7 @@ export const Register = () => {
                         )}
                     </div>
 
-                    <div className="mb-3">
-                        <label htmlFor='dob' className='text-black text-sm mb-1 block' >Date of birth</label>
-                        <div className='border border-black w-full p-2 rounded-full focus-within:border-blue-500'>
-                            <input type="date"
-                                id="dob"
-                                placeholder='Enter your date of birth...'
-                                className='outline-none w-full border-none'
-                                {...register("dob", {
-                                    required: "Date of birth is required"
-                                })}
-                            />
-                        </div>
-                        {errors.dob && (
-                            <p className='text-red-500 text-sm'>
-                                {errors.dob.message}
-                            </p>
-                        )}
-                    </div>
-
-                    <div className="mb-3">
+                       <div className="mb-3">
                         <label htmlFor='password' className='text-black text-sm mb-1 block' >Password</label>
                         <div className='border border-black w-full p-2 rounded-full focus-within:border-blue-500'>
                             <input type="password"
@@ -116,6 +86,29 @@ export const Register = () => {
                             </p>
                         )}
                     </div>
+
+                     <div className="mb-3">
+                        <label htmlFor='role' className='text-black text-sm mb-1 block' >Role</label>
+                        <div className='border border-black w-full p-2 rounded-full focus-within:border-blue-500'>
+                            <input type="text"
+                                id="role"
+                                placeholder='Enter your role...'
+                                className='outline-none w-full border-none'
+                                {...register("role", {
+                                    required: "Role is required",
+                                })}
+                            />
+                        </div>
+                        {errors.role && (
+                            <p className='text-red-500 text-sm'>
+                                {errors.role.message}
+                            </p>
+                        )}
+                    </div>
+
+                 
+
+                 
 
                     <button type='submit' className='bg-blue-500 w-full text-white py-2 rounded-full hover:bg-blue-600 transition-colors'>Register</button>
 

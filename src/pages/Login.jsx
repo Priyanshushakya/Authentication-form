@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import { useFormStatus } from 'react-dom';
 import { useForm, useFormState } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { loginSuccess } from '../slice/authSlice';
+// import { loginSuccess } from '../slice/authSlice';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { loginUser } from '../slice/authSlice';
+import toast from 'react-hot-toast';
 
 export const Login = () => {
 
@@ -17,20 +19,18 @@ export const Login = () => {
     const dispatch = useDispatch();
     const Navigate = useNavigate();
 
-    const onSubmit = (data) => {
-        console.log("Form data:", data);
-        const storedUser = JSON.parse(localStorage.getItem("user"));
-
-        if (
-            storedUser &&
-            storedUser.email === data.email &&
-            storedUser.password === data.password
-        ) {
-            dispatch(loginSuccess(storedUser));
+    const onSubmit = async(payload) => {
+        console.log("Form data:", payload);
+       
+        try {
+            const res = await dispatch(loginUser(payload)).unwrap();
+            console.log("res", res)
+            toast.success(res.data.message || "Login successfull!");
             Navigate('/');
-
-        } else {
-            console.log("Invalid credentials");
+            reset();
+        } catch (error) {
+            console.error("Login error:", error);
+            toast.error(error || "Login failed!");
         }
     };
 
